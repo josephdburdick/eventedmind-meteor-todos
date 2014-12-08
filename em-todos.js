@@ -29,7 +29,19 @@ if (Meteor.isClient) {
           is_done: isDone
         }
       })
+    },
+    'click .remove': function(e, tmpl){
+      e.preventDefault();
+      var id = this._id,
+          answer = confirm("Are you sure you want to delete this task?");
+      if (answer == true){
+        console.log("Removing document id " + id);
+        Todos.remove({_id: id});
+        console.log("What was that id again? " + id);  
+      }
+      
     }
+
   });
 
   Template.CreateTodoItem.events({
@@ -48,6 +60,7 @@ if (Meteor.isClient) {
       var form = tmpl.find('form');
       form.reset();
     }
+
   });
 
   Template.TodosCount.helpers({
@@ -63,5 +76,17 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.publish('todos', function () {
     return Todos.find({user_id: this.userId});
+  });
+
+  Todos.allow({
+    insert: function (userId, doc) {
+      return userId;
+    },
+    update: function (userId, doc, fieldNames, modifier) {
+      return doc.user_id === userId;
+    },
+    remove : function (userId, doc) {
+      return doc.user_id === userId;
+    }
   });
 }
