@@ -1,9 +1,19 @@
 <head>
   <title>em-todos</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
-  <div class="containers">
+  <div class="container">
+    {{> CreateTodoItem}}
+
     {{> TodosPanel}}
   </div>
 </body>
@@ -12,15 +22,34 @@
   <div class="todos-panel">
     <ul class="todos-list">
       {{#each items}}
-        <li class="todo-item">
+        <li class="todo-item {{isDoneClass}}">
           {{> TodoItem}}
         </li>
       {{/each}}
     </ul>
+    {{> TodosCount}}
   </div>
 </template>
 
 
 <template name="TodoItem">
-  {{subject}}
+  <div class="done">
+    <input type="checkbox" name="is_done" {{isDoneChecked}} />
+  </div>
+
+  <div class="subject">
+    {{subject}}
+  </div>
+</template>
+
+<template name="CreateTodoItem">
+  <form class="create-todo">
+    <input type="text" placeholder="Create new todo...">
+  </form>
+</template>
+
+<template name="TodosCount">
+  <div class="todos-count">
+    {{completedCount}} / {{totalCount}} todos completed
+  </div>
 </template>
