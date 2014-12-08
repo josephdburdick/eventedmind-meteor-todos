@@ -12,7 +12,9 @@
 
 <body>
   <div class="container">
-    {{> CreateTodoItem}}
+    <div class="login">
+      {{> loginButtons}}
+    </div>
 
     {{> TodosPanel}}
   </div>
@@ -20,6 +22,8 @@
 
 <template name="TodosPanel">
   <div class="todos-panel">
+      {{> CreateTodoItem}}
+
     <ul class="todos-list">
       {{#each items}}
         <li class="todo-item {{isDoneClass}}">
